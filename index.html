@@ -4,27 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Quiz</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./asset/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     
 
 </head>
 <body>
     <div>
-        <h4>View High Score</h4>  
-        <!-- h4 above needs to link to another page or area -->
-        <h4>Time: <span id="count"></span> </h4> 
-        
-        <h1>Coding Quiz Challenge</h1>
-        <p>Try to answer the following code-realted questions within the time limit.  Keep in mind that incorrect answers will penalize your score by 10 seconds.</p>
-        <button id ="start">Start Quiz</button>
-    </div>
-    <div id ="quiz"> </div>
-    <button id ="submit"> Answers</button> 
-    <div id = "results"></div>
+        <div class="row">
+            <div class="col-md-4"id="highscore">View Highscore</div>
+            <div class="col-md-4" id="time">Time: <span id="count"></span></div>
+        </div> 
+       
+        <div id="content">
+            <h1>Coding Quiz Challenge</h1>
+            <p>Try to answer the following code-related questions within the time limit.  Keep in mind that incorrect answers will penalize your score by 10 seconds.</p>
+            <button id ="start">Start Quiz</button>
+        </div>
+       
+        <div id ="quiz">     </div>
+     
+        <div id = "results"></div>
+        </div>
     </div>
 
-
-<script src="./script.js"></script>
+<script src="./asset/script.js"></script>
 <script type = "text/javascript"></script>
 </body>
 </html>

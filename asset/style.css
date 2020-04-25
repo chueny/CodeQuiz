@@ -1,6 +1,76 @@
-h4{
+div{
+    margin: 20px;
+}
+
+#content{
+    text-align: center;
+}
+
+#content p{
+    margin: 20px;
+}
+
+#highscore{
+    text-align: left;
+    font-style: san serif;
+    font-weight: normal;
+    margin-right: 40px;
+}
+
+#time{
     text-align: right;
     font-style: san serif;
     font-weight: normal;
     margin-right: 40px;
 }
+
+#start {
+    margin: auto;
+    font-size: 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    background: rgba(0,0,255,.70); 
+    color: white;
+    border-radius: 10px;
+    height: 50px;  
+    
+  }
+
+  @media screen and (max-width: 780px){
+  div{
+    width: 100%;
+    padding: 20px;
+  }
+
+  #time{
+    text-align: right;
+    font-style: san serif;
+    font-weight: normal;
+    margin-right: 10px;
+}
+/*     
+  .col-md-9{
+    float: left;
+    margin-top: 30px;
+ } */
+ }
+    
+@media screen and (max-width: 480px){
+div{
+   width: 100%;
+   padding: 20px 40px;
+}
+
+#time{
+    text-align: right;
+    font-style: san serif;
+    font-weight: normal;
+    margin-right: 10px;
+}
+/* .col-md-9{
+float: left;
+margin-top: 20px; 
+}*/
+}
+    

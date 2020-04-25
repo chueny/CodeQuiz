@@ -4,31 +4,27 @@ var quizContainer = document.getElementById("quiz");
 var resultsContainer = document.getElementById('results');
 var submitButton = document.getElementById('submit');
 
-//startButton.addEventListener("click", timerStart);
+var numCorrect  = 0;
 
-//we can have a timer function here and call this function in the function begin.
+// startButton.addEventListener("click", timerStart);
 
-// function timerStart(){
-//     var timeLeft = 10;
+function timerStart(){
+    var timeLeft = 10;
 
-//     var timeInterval = setInterval (function(){
-//         countEl.textContent = timeLeft;
-//         timeLeft--;
-//         //generateQuiz(Questions, quizContainer, answers, submitButton);
+    var timeInterval = setInterval (function(){
+        countEl.textContent = timeLeft;
+        timeLeft--;
+        //generateQuiz(Questions, quizContainer, answers, submitButton);
+        //we may need to also and an if answer is wrong 
+        //where is the best place to put wrong answers
+        if (timeLeft <= 0){
+            timeLeft.textContent = " ";
+            alert ("You're done with the quiz!");
+            clearInterval(timeInterval);
+        }
+    }, 1000);
+}
 
-        
-//         //we may need to also and an if answer is wrong 
-//         //where is the best place to put wrong answers
-//         if (timeLeft === 0){
-//             timeLeft.textContent =" ";
-//             alert (" You're done with the quiz!");
-//             clearInterval(timeInterval);
-//         }
-//     }, 1000);
-// }
-
-
-//this function loops through a bunch of questions when we run the timerStart function
 var myQuestions = [
     {
         question: "The condition in an if / else statement is enclosed within ______.",
@@ -38,7 +34,7 @@ var myQuestions = [
             c:	'Parenthesis',
             d:	'Square brackets',
         },      
-        correctAnswer: 'b'
+        correctAnswer: 'c'
     },
     {
         question: "Commonly used data types DO NOT Include:_________.",
@@ -53,78 +49,95 @@ var myQuestions = [
     {
         question: "String values must be enclosed within ________ when being assigned to variables.",
         answers: {
-            a:  'Strings',
-            b:  'Booleans',
-            c:  'Alerts',
-            d:	'Numbers',
+            a:  'Commas',
+            b:  'Parenthesis',
+            c:  'Quotes',
+            d:	'Braces',
         },
         correctAnswer: 'c'
     },
     {
-        question: "Commonly used data types DO NOT Include:_________.",
+        question: "Arrays in JavaSript can be used to store:_________.",
         answers: {
-            a:  'Strings',
-            b:  'Booleans',
-            c:  'Alerts',
-            d:	'Numbers',
+            a:  'Numbers',
+            b:  'Strings',
+            c:  'Booleans',
+            d:	'All of the above',
         },
-        correctAnswer: 'c'
+        correctAnswer: 'd'
     }
 ];
 
-function showQuestions(questions, quizContainer){
+var currentQuestion = 0;
 
+function showOne(questionsList, questionNum, quizContainer){
     var output =[];
-    var answers;
-
-    for (var i=0; i<questions.length; i++){
-
-        answers =[];
-
-        for (letter in questions[i].answers){
-
-            answers.push(
-            
-                '<label>'
-                + '<input type = "radio" name="question' +i+ '" value="'+letter+'">'
-                + letter + ': '
-                + questions[i].answers[letter]
-                +'</label>'
-            );
-        }
-
-            output.push(
-                '<div class="question">' + questions[i].question+ '</div>'
-                + '<div class ="answers">' +answers.join('') + '</div>'
-            );
+    var answers =[];
+    
+    //Display radio buttons
+    for (letter in questionsList[questionNum].answers){
+        answers.push(            
+            '<label>'
+             + '<input type = "radio" name="question' +questionNum+ '" value="'+letter+ '">'
+             + letter + ': '
+             + questionsList[questionNum].answers[letter]
+             +'</label>'
+        );
     }
+
+    output.push(
+        '<div class="question">' + questionsList[questionNum].question+ '</div>'
+        + '<div class ="answers">' +answers.join('') + '</div>'
+    );
+    
+    //Display the button
+   output.push(
+       ' <button id ="submit" onclick = "checkAnswer(' + questionNum + ')"> Submit answer</button>  '
+    );
+
     quizContainer.innerHTML = output.join('');
 }
 
-
-//showQuestions(questions, quizContainer);
-//the function is not doing anything.  Console says it's not correct
-
-function showResults(questions, quizContainer, resultsContainer){
-
-    var answerContainers = quizContainer.querySelectorAll('.answers');
-
-    var userAnswer = '';
-    var numCorrect = 0;
-
-    for (var i=0; i<questions.length; i++){
-        userAnswer = (answerContainers[i].querySelector ('input[name=question'+i+']:checked')||{}).value;
-        
-        if userAnswer === questions[i].correctAnswer){
-            numCorrect++;
-        }
-        else{
-            alert("Wrong!");
-        }
+function showNextQuestion(questionNum){
+    if (questionNum < myQuestions.length -1 ){
+        showOne(myQuestions, questionNum+1, quizContainer);
     }
-    resultsContainer.innerHTML = "Your final score is "+numCorrect+" !";
+
+}
+function showResults(){
+    var output=[];
+
+    output.push(
+        '<div class="Finish">All done!</div>'
+        + '<p>Your score is'+numCorrect+'</p>'
+        +'<label for="initials">Enter initials:</label>'
+        + '<input type="initials" placeholder="supersecure123"/>' 
+        +'<button id="initialSubmit">Submit</button>'
+    );
+    quizContainer.innerHTML = output.join('');
 }
 
+function checkAnswer(questionNum) {
+    var buttons = document.getElementsByName('question' + questionNum);
+    for(i = 0; i < buttons.length;i++){
+        if (buttons[i].checked){
+           if(buttons[i].value == myQuestions[questionNum].correctAnswer){
+                numCorrect++;
+                console.log('question ' + questionNum+ ' is correct');
+           }
+           else {
+                console.log('wrong!!!!');
+           }
+        }
+    }
 
+    showNextQuestion(questionNum);
+    
+    if(questionNum == myQuestions.length -1){
+        showResults();
+    }
+}
 
-submitButton.addEventListener("click", showResults);
+startButton.addEventListener("click", function(){
+    showOne(myQuestions, 0, quizContainer);
+});
