@@ -8,23 +8,6 @@ var initialSubmit;
 
 var numCorrect  = 0;
 
-// startButton.addEventListener("click", timerStart);
-
-function timerStart(){
-    var timeLeft = 10;
-
-    var timeInterval = setInterval (function(){
-        countEl.textContent = timeLeft;
-        timeLeft--;
-       
-        if (timeLeft <= 0){
-            timeLeft.textContent = " ";
-            alert ("You're done with the quiz!");
-            clearInterval(timeInterval);
-        }
-    }, 1000);
-}
-
 var myQuestions = [
     {
         question: "The condition in an if / else statement is enclosed within ______.",
@@ -69,6 +52,32 @@ var myQuestions = [
 ];
 
 var currentQuestion = 0;
+var timeLeft = 10;
+
+startButton.addEventListener("click", function(){
+
+    toggleContentDiv();
+    timerStart();
+    showOne(myQuestions, 0, quizContainer);
+    
+});
+
+function timerStart(){
+   
+
+    var timeInterval = setInterval (function(){
+        countEl.textContent = timeLeft;
+        timeLeft--;
+       
+        if (timeLeft <= 0){
+            countEl.textContent = "0";
+            clearInterval(timeInterval);
+            showResults();
+        }
+    }, 1000);
+}
+
+
 
 function showOne(questionsList, questionNum, quizContainer){
     var output =[];
@@ -114,7 +123,7 @@ function checkAnswer(questionNum) {
                 console.log('question ' + questionNum+ ' is correct');
            }
            else {
-                console.log('wrong!!!!');
+                timeLeft = timeLeft-5;; 
            }
         }
     }
@@ -122,19 +131,11 @@ function checkAnswer(questionNum) {
     showNextQuestion(questionNum);
 
     if(questionNum == myQuestions.length -1){
+        timeLeft=0;
         showResults();
     }
 }
 
-startButton.addEventListener("click", function(){
-//Hide Div "Coding throiugh start quiz"
-    // var scores=[];
-    // scores.push('');
-    // content.innerHTML = scores.join('');
-    toggleContentDiv();
-    showOne(myQuestions, 0, quizContainer);
-    
-});
 
 function showResults(){
     var output=[];
