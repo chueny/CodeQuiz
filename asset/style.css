@@ -4,10 +4,17 @@ div{
 
 #content{
     text-align: center;
+
 }
 
 #content p{
     margin: 20px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;    
 }
 
 #highscore{
@@ -37,9 +44,18 @@ div{
     
 }
 
+.question {
+    margin: 40px;
+    align-items: center;
+}
+
 .answers{
    align-content:center;
 
+}
+
+#list{
+    margin-right: 5px;
 }
 
 #submit{
@@ -49,46 +65,53 @@ div{
 
 }
 
+#quiz{
+    text-align: center;
+}
+#name:focus{
+    border: 2px solid;
+    border-radius: 5px;
+    
+}
 #submitResults{
     border-radius: 20px;
     margin: 10px ;
-    background: rebeccapurple;
+    background: grey;
 }
 
-@media screen and (max-width: 780px){
-  div{
-    width: 100%;
-    padding: 20px;
-  }
-
-  #time{
-    text-align: right;
-    font-style: san serif;
-    font-weight: normal;
-    margin-right: 10px;
+ul li{
+    list-style: none;
 }
-/*     
-  .col-md-9{
-    float: left;
-    margin-top: 30px;
- } */
- }
+@media (max-width: 780px){
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;    
+    }
+
+#highscore {
     
-@media screen and (max-width: 480px){
-div{
-   width: 100%;
-   padding: 20px 40px;
+    max-width: 50%;
 }
 
 #time{
-    text-align: right;
-    font-style: san serif;
-    font-weight: normal;
-    margin-right: 10px;
+    max-width: 50%;
 }
-/* .col-md-9{
-float: left;
-margin-top: 20px; 
-}*/
+
+#name:focus{
+    border: 2px solid;
+    border-radius: 5px;
+    
+      
+}
+
+    
+@media screen and (max-width: 480px){
+    #name:focus{
+        border: 2px solid;
+        border-radius: 5px;
+        
+
 }
     

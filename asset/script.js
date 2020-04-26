@@ -5,6 +5,9 @@ var content = document.getElementById("content");
 var resultsContainer = document.getElementById('results');
 var submitButton = document.getElementById('submit');
 var initialSubmit;
+var isHighScorePageDisplayed = false;
+
+var quizLength = 20; //quiz length in seconds
 
 var numCorrect  = 0;
 
@@ -52,18 +55,18 @@ var myQuestions = [
 ];
 
 var currentQuestion = 0;
-var timeLeft = 10;
+var timeLeft = quizLength;
 
 startButton.addEventListener("click", function(){
 
     toggleContentDiv();
+    timeLeft = quizLength;
     timerStart();
     showOne(myQuestions, 0, quizContainer);
     
 });
 
 function timerStart(){
-   
 
     var timeInterval = setInterval (function(){
         countEl.textContent = timeLeft;
@@ -86,11 +89,12 @@ function showOne(questionsList, questionNum, quizContainer){
       
     for (letter in questionsList[questionNum].answers){
         answers.push(            
-            '<label>'
-             + '<input type = "radio" name="question' +questionNum+ '" value="'+letter+ '">'
-             + letter + ': '
-             + questionsList[questionNum].answers[letter]
-             +'</label>'
+
+             '<ul>'
+             +'<li> <input id="list" type = "radio" name="question'+ questionNum +'"'
+             +'value="'+letter+ '">'+ letter + ': '+ questionsList[questionNum].answers[letter]+' </li>'
+             +'</ul>'
+        
         );
     }
 
@@ -116,14 +120,18 @@ function showNextQuestion(questionNum){
 
 function checkAnswer(questionNum) {
     var buttons = document.getElementsByName('question' + questionNum);
+
+    console.log("in checkAnswer function");
+
     for(i = 0; i < buttons.length;i++){
         if (buttons[i].checked){
            if(buttons[i].value == myQuestions[questionNum].correctAnswer){
                 numCorrect++;
-                console.log('question ' + questionNum+ ' is correct');
+                console.log("question " + questionNum + "is correct.");
            }
            else {
-                timeLeft = timeLeft-5;; 
+                timeLeft = timeLeft-3;
+                console.log("question " + questionNum + "is wrong."); 
            }
         }
     }
@@ -160,13 +168,15 @@ function showResults(){
         if (initials ===""){
             displayMessage("Initials cannot be blank");
         } else {
-            localStorage.setItem("name", initials);
-            localStorage.setItem("score", numCorrect);
-    
-            console.log('name from local storage in showResults: ' + localStorage.getItem("name"));
-            console.log('score from local storage in showResults: '+ localStorage.getItem("score"));
+            if(localStorage.getItem("score") < numCorrect){
+                localStorage.setItem("name", initials);
+                localStorage.setItem("score", numCorrect);
+            }
+            numCorrect = 0;
 
+            toggleContentDiv();
             highScoreRegistered();
+            
         }
     
        
@@ -180,19 +190,24 @@ function displayMessage(message){
 }
 
 function highScoreRegistered(){
-
-    var scores=[];
-    var name = localStorage.getItem("name");
-    var highScore = localStorage.getItem("score");
     
-    console.log('Name from local storage in highscores: ' + name);
-    scores.push(
-        '<h1> Highscores</h1>'
-        +'<p>' + highScore + '-' + name + '</p>'
-        +'<button id= "goBack" onclick = "goBack()">  Go Back </button> '
-        +'<button id="clearScores" onclick="clearScores()"> Clear Highscores </button> '
-    );
-  quizContainer.innerHTML = scores.join('');
+    if(!isHighScorePageDisplayed){
+        toggleContentDiv();
+        var scores=[];
+        var name = localStorage.getItem("name");
+        var highScore = localStorage.getItem("score");
+        
+        console.log('Name from local storage in highscores: ' + name);
+        scores.push(
+            '<h1> Highscores</h1>'
+            +'<p>' + highScore + '-' + name + '</p>'
+            +'<button id= "goBack" onclick = "goBack()">  Go Back </button> '
+            +'<button id="clearScores" onclick="clearScores()"> Clear Highscores </button> '
+        );
+        quizContainer.innerHTML = scores.join('');
+        isHighScorePageDisplayed = true;
+    }
+
 }
 
 function goBack(){
@@ -200,6 +215,7 @@ function goBack(){
     //Hides high score info.
     var scores=[];
     quizContainer.innerHTML = scores.join('');
+    isHighScorePageDisplayed = false;
 
     //Puts the quiz directions and start button back.
     toggleContentDiv();
@@ -218,6 +234,9 @@ function toggleContentDiv(){
 }
 
 function clearScores(){
+    localStorage.setItem("name", "");
+    localStorage.setItem("score", "");
+    
     var scores=[];
     
     scores.push(
