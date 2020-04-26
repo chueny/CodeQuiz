@@ -51,6 +51,16 @@ var myQuestions = [
             d:	'All of the above',
         },
         correctAnswer: 'd'
+    },
+    {
+        question: "What does HTML stands for?",
+        answers: {
+            a:  'Hypertext Machine language',
+            b:  'Hypertext and links markup language.',
+            c:  'Hypertext Markup Language',
+            d:	'Hightext machine language',
+        },
+        correctAnswer: 'c'
     }
 ];
 
