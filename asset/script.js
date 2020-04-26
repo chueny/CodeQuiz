@@ -8,7 +8,6 @@ var initialSubmit;
 var isHighScorePageDisplayed = false;
 
 var quizLength = 20; //quiz length in seconds
-
 var numCorrect  = 0;
 
 var myQuestions = [
@@ -67,6 +66,9 @@ var myQuestions = [
 var currentQuestion = 0;
 var timeLeft = quizLength;
 
+//when the start button is clicked, it triggers multiple fuctions, such as clearing initial page
+//resets the timer and restarts timmer
+//trigers the first question in the list
 startButton.addEventListener("click", function(){
 
     toggleContentDiv();
@@ -76,6 +78,8 @@ startButton.addEventListener("click", function(){
     
 });
 
+//the timerStart function pushes our time left to the webpage and starts decrementing
+//if timer is 0, then clears timerInterval and shows how many correct user gets
 function timerStart(){
 
     var timeInterval = setInterval (function(){
@@ -91,15 +95,13 @@ function timerStart(){
 }
 
 
-
+//showOne function grabs questions, answers and prints them into the quizContainer
 function showOne(questionsList, questionNum, quizContainer){
     var output =[];
     var answers =[];
 
-      
     for (letter in questionsList[questionNum].answers){
         answers.push(            
-
              '<ul>'
              +'<li> <input id="list" type = "radio" name="question'+ questionNum +'"'
              +'value="'+letter+ '">'+ letter + ': '+ questionsList[questionNum].answers[letter]+' </li>'
@@ -113,11 +115,9 @@ function showOne(questionsList, questionNum, quizContainer){
         + '<div class ="answers">' +answers.join('') + '</div>'
     );
     
-    //Display the button
-   output.push(
+    output.push(
        ' <button id ="submit" onclick = "checkAnswer(' + questionNum + ')"> Submit answer</button>  '
     );
-   
     quizContainer.innerHTML = output.join('');
 }
 
@@ -125,9 +125,10 @@ function showNextQuestion(questionNum){
     if (questionNum < myQuestions.length -1 ){
         showOne(myQuestions, questionNum+1, quizContainer);
     }
-
 }
 
+//function checks if answers are correct, if correct tracks number of correct
+//if wrong, minus 3 seconds from timer
 function checkAnswer(questionNum) {
     var buttons = document.getElementsByName('question' + questionNum);
 
@@ -148,13 +149,13 @@ function checkAnswer(questionNum) {
 
     showNextQuestion(questionNum);
 
-    if(questionNum == myQuestions.length -1){
+    if(questionNum == myQuestions.length -1){  //when all questions are answer, reset timer and show us our results 
         timeLeft=0;
         showResults();
     }
 }
 
-
+//this function shows user how many number of questions they correctly answered.
 function showResults(){
     var output=[];
 
@@ -170,6 +171,10 @@ function showResults(){
     quizContainer.innerHTML = output.join('');
     initialSubmit = document.getElementById('submitResults');
 
+
+    //this fuction saves user info (such as name and high scores) to local storage 
+    //also takes us to the High score link
+    //and resets/hide "Code Challenge Div"
     initialSubmit.addEventListener("click", function(event){
         event.preventDefault();
         var initials =document.getElementById("name").value;
@@ -188,17 +193,14 @@ function showResults(){
             highScoreRegistered();
             
         }
-    
-       
-    
     });
 }
 
 function displayMessage(message){
     content.textContent=message;
-//    startButtonDiv.setAttribute("", );
 }
 
+//this function grabs user name and score from local storage
 function highScoreRegistered(){
     
     if(!isHighScorePageDisplayed){
@@ -217,21 +219,19 @@ function highScoreRegistered(){
         quizContainer.innerHTML = scores.join('');
         isHighScorePageDisplayed = true;
     }
-
 }
 
 function goBack(){
-    
-    //Hides high score info.
+  
     var scores=[];
     quizContainer.innerHTML = scores.join('');
     isHighScorePageDisplayed = false;
 
-    //Puts the quiz directions and start button back.
-    toggleContentDiv();
+   toggleContentDiv();
   
 }
 
+//this function hides the "Code Challenge Div"
 function toggleContentDiv(){
     var hide = document.getElementById("content");
     console.log("toggleDiv: " + hide);
@@ -243,6 +243,7 @@ function toggleContentDiv(){
     }
 }
 
+//function resets the name and scores and as the same time
 function clearScores(){
     localStorage.setItem("name", "");
     localStorage.setItem("score", "");
@@ -256,5 +257,4 @@ function clearScores(){
         +'<button id="clearScores" > Clear Highscores </button> '
     );
     quizContainer.innerHTML = scores.join('');
-
 }
