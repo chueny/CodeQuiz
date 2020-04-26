@@ -35,9 +35,27 @@ div{
     border-radius: 10px;
     height: 50px;  
     
-  }
+}
 
-  @media screen and (max-width: 780px){
+.answers{
+   align-content:center;
+
+}
+
+#submit{
+    
+    border-radius: 20px;
+    margin: 10px 200px;
+
+}
+
+#submitResults{
+    border-radius: 20px;
+    margin: 10px ;
+    background: rebeccapurple;
+}
+
+@media screen and (max-width: 780px){
   div{
     width: 100%;
     padding: 20px;

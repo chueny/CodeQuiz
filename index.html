@@ -12,19 +12,19 @@
 <body>
     <div>
         <div class="row">
-            <div class="col-md-4"id="highscore">View Highscore</div>
+            <div class="col-md-4"id="highscore" onclick="highScoreRegistered()">View Highscore</div>
             <div class="col-md-4" id="time">Time: <span id="count"></span></div>
         </div> 
        
         <div id="content">
             <h1>Coding Quiz Challenge</h1>
             <p>Try to answer the following code-related questions within the time limit.  Keep in mind that incorrect answers will penalize your score by 10 seconds.</p>
-            <button id ="start">Start Quiz</button>
+            <div id="startButtonDiv" display = "block">
+                <button id ="start">Start Quiz</button>
+            </div>
         </div>
        
-        <div id ="quiz">     </div>
-     
-        <div id = "results"></div>
+        <div id ="quiz"></div>
         </div>
     </div>
 
